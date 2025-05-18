@@ -32,10 +32,10 @@ addpath(fullfile(base, 'scripts', 'stim-generation'), '-end')
 addpath(fullfile(base, 'scripts', 'model-SFIE'), '-end'); 
 addpath(fullfile(base, 'scripts', 'UR_EAR_2022a'), '-end'); 
 addpath(fullfile(base, 'scripts', 'UR_EAR_2022a', 'source'), '-end'); 
-% addpath(fullfile(base, 'scripts', 'model-fitting'), '-end'); 
-% addpath(fullfile(base, 'scripts', 'model-energy'), '-end'); 
-% addpath(fullfile(base, 'scripts', 'model-lat-inh'), '-end'); 
-% addpath(fullfile(base, 'scripts', 'analysis'), '-end'); 
+addpath(fullfile(base, 'scripts', 'model-fitting'), '-end'); 
+addpath(fullfile(base, 'scripts', 'model-energy'), '-end'); 
+addpath(fullfile(base, 'scripts', 'model-lat-inh'), '-end'); 
+addpath(fullfile(base, 'scripts', 'analysis'), '-end'); 
 
 % =====================================================================
 
