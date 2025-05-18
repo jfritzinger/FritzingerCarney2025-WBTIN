@@ -35,7 +35,7 @@ addpath(fullfile(base, 'scripts', 'model-lat-inh'), '-end');
 
 % Could put any neuron here
 putative = 'R29_TT4_P2_N16';
-switch neuron
+switch putative
 	case 'R29_TT4_P2_N16'
 		CF = 2639;
 	case 'R29_TT4_P2_N2'
