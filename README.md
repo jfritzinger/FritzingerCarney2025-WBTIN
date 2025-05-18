@@ -13,7 +13,7 @@ Preprocessed data used in figure generation are included as  excel and .mat file
 
 ### Generating Figures 
 
-Run ```generate_figs.m``` with an input of the figure to be generated. For convienence, preprocessed data is included 
+Run ```generate_figs.m``` with an input of the figure to be generated. For convenience, preprocessed data is included 
 in the data folder due to lengthy compute times for some analyses. Functions for each figure, including 
 supplemental material, are found in the _"figures"_ folder. 
 
