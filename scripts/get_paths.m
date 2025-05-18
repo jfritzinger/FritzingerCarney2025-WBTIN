@@ -12,7 +12,7 @@ projectName = 'FritzingerCarney2025-WBTIN';
 
 idx = strfind(directory, projectName);
 if ~isempty(idx)
-    base = directory(1 : idx + length(projectName) - 1);
+    base = directory(1:idx(end) + length(projectName) - 1);
 else
     error('Project folder name not found in path.');
 end
