@@ -60,10 +60,12 @@ for ibin = 2
 		data_WB = data_WB{1};
 
 		% Calculate model response
-		[R2, avModel, stdModel, ratio, max_all] = modelWBTINSTRF(param_WB, data_STRF, data_WB);
+		[R2, avModel, stdModel, ratio, max_all] = modelWBTINSTRF(param_WB,...
+			data_STRF, data_WB);
 
 		% Display progress
-		fprintf('%s Done, %.2f through %s \n', putative_neuron, isesh/length(index), binmodes{ibin})
+		fprintf('%s Done, %.2f through %s \n', putative_neuron,...
+			isesh/length(index), binmodes{ibin})
 
 		% Add to struct
 		temp(isesh).putative = putative_neuron;
