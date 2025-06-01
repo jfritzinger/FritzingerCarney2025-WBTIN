@@ -16,7 +16,7 @@ function fig8_model_fit_BE(save_fig)
 
 %% Load in data 
 
-[base, datapath, ~, ppi] = get_paths();
+[~, datapath, ~, ppi] = get_paths();
 
 % BE example 
 putative = 'R29_TT4_P2_N16';
@@ -88,7 +88,7 @@ load(fullfile(datapath, putative, filename),"rms_filt", 'SFIE', "broad_inh", "pa
 % 	pin_gamma = pin_gamma(:,1:param.dur*Fs);
 % 	rms_filt{ist} = sqrt(mean(pin_gamma.^2,2));
 % end
-% 
+%
 % % Save
 % % save(fullfile(datapath, filename),...
 % % 	'SFIE', "broad_inh", "rms_filt", "params")

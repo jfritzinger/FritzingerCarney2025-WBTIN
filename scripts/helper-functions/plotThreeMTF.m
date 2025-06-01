@@ -15,7 +15,7 @@ linewidth = 1;
 colors1 = {'#969696','#636363', '#252525'};
 colors2 = {'#fd8d3c','#e6550d','#a63603'};
 for iparam = 1:3
-	lateral_model = model{iparam}{1};
+	lateral_model = model{iparam, 1};
 	[~, avIC, ~] = plotMTF(params{1}, lateral_model.avIC, 0);
 	yline(avIC(1), 'Color',colors1{iparam}, 'LineWidth',linewidth)
 	hold on

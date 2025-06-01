@@ -1,4 +1,4 @@
-function plotThreeWB(model, params, CF, iWB)
+function plotThreeWB(model, params, CF)
 %PLOTMODELRESPONSES Visualizes auditory model responses across parameters
 %   plotModelResponses(MODEL, PARAMS, CF, IWB) generates parameterized response
 %   curves for auditory model analysis
@@ -20,12 +20,12 @@ colors2 = {'#fd8d3c','#e6550d','#a63603'};
 
 
 for iparam = 1:3
-	lateral_model = model{iparam}{2+iWB};
+	lateral_model = model{iparam, 2};
 
 	% Analyze model
-	[SNRs,~,si] = unique([params{2+iWB}.mlist.SNR].');
+	[SNRs,~,si] = unique([params{2}.mlist.SNR].');
 	num_SNRs = length(SNRs);
-	[fpeaks,~,fi] = unique([params{2+iWB}.mlist.fpeak].');
+	[fpeaks,~,fi] = unique([params{2}.mlist.fpeak].');
 	num_fpeaks = length(fpeaks);
 	rate_size = [num_fpeaks,num_SNRs];
 	[avIC,~,~,~] = accumstats({fi,si},lateral_model.avIC, rate_size);
@@ -37,12 +37,9 @@ for iparam = 1:3
 
 end
 xline(CF/1000, '--', 'Color', [0.4 0.4 0.4], 'LineWidth',linewidth); % CF line
-xlim([params{2+iWB}.freq_lo params{2+iWB}.freq_hi]./1000)
+xlim([params{2}.freq_lo params{2}.freq_hi]./1000)
 ylim([0,45])
 set(gca, 'XScale', 'log');
 grid on
-if iWB == 1
-	ylabel('Rate (sp/s)')
-end
 
 end

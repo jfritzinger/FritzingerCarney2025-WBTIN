@@ -26,7 +26,7 @@ labelsize = 13;
 
 %% How strength parameter affects responses
 
-load(fullfile(datapath, 'ModelParams1.mat'),...
+load(fullfile(datapath, 'ModelParams_1.mat'),...
 	"model", "params", "CF")
 h(1) = subplot(3, 2, 1);
 plotThreeMTF(model, params, 0)
@@ -36,7 +36,7 @@ set(gca, 'fontsize', fontsize)
 title('MTF', 'FontSize',titlesize)
 
 h(2) = subplot(3, 2, 2);
-plotThreeWB(model, params, CF, 2)
+plotThreeWB(model, params, CF)
 set(gca, 'fontsize', fontsize)
 xticklabels([])
 leg(1) = legend(h(2), {'', '0.1', '', '0.3', '', '0.5'}, 'Location','northeastoutside');
@@ -46,7 +46,7 @@ title('WB-TIN', 'FontSize',titlesize)
 
 
 %% How CF range parameter affects responses
-load(fullfile(datapath, 'ModelParams2.mat'),...
+load(fullfile(datapath, 'ModelParams_2.mat'),...
 	"model", "params", "CF")
 
 h(3) = subplot(3, 2, 3);
@@ -56,64 +56,53 @@ set(gca, 'fontsize', fontsize)
 xtickangle(0)
 
 colors2 = {'#fd8d3c','#e6550d','#a63603'};
-for iWB = 2
-	h(4) = subplot(3, 2, 4);
-	for iparam = 1:3
-		lateral_model = model{iparam}{2+iWB};
 
-		% Analyze model
-		[SNRs,~,si] = unique([params{2+iWB}.mlist.SNR].');
-		num_SNRs = length(SNRs);
-		[fpeaks,~,fi] = unique([params{2+iWB}.mlist.fpeak].');
-		num_fpeaks = length(fpeaks);
-		rate_size = [num_fpeaks,num_SNRs];
-		[avIC,~,~,~] = accumstats({fi,si},lateral_model.avIC, rate_size);
+h(4) = subplot(3, 2, 4);
+for iparam = 1:3
+	lateral_model = model{iparam, 2};
 
-		% Plot model
-		hold on
-		plot(fpeaks/1000, avIC(:,2), 'LineWidth',linewidth, 'Color',colors2{iparam})
-		xlim([params{2+iWB}.freq_lo params{2+iWB}.freq_hi]./1000)
-		set(gca, 'XScale', 'log');
-		grid on
-		ylim([0 32])
-		set(gca, 'fontsize', fontsize)
-	end
-	xline(CF/1000, '--', 'Color', [0.4 0.4 0.4], 'LineWidth',linewidth); % CF line
-	if iWB == 1
-		ylabel('Rate (sp/s)')
-	end
-	if iWB == 2
-		xlabel('Tone Freq. (kHz)')
-		set(gca, 'fontsize', fontsize)
-	end
+	% Analyze model
+	[SNRs,~,si] = unique([params{2}.mlist.SNR].');
+	num_SNRs = length(SNRs);
+	[fpeaks,~,fi] = unique([params{2}.mlist.fpeak].');
+	num_fpeaks = length(fpeaks);
+	rate_size = [num_fpeaks,num_SNRs];
+	[avIC,~,~,~] = accumstats({fi,si},lateral_model.avIC, rate_size);
+
+	% Plot model
+	hold on
+	plot(fpeaks/1000, avIC(:,2), 'LineWidth',linewidth, 'Color',colors2{iparam})
+	xlim([params{2}.freq_lo params{2}.freq_hi]./1000)
+	set(gca, 'XScale', 'log');
+	grid on
+	ylim([0 32])
+	set(gca, 'fontsize', fontsize)
 end
+xline(CF/1000, '--', 'Color', [0.4 0.4 0.4], 'LineWidth',linewidth); % CF line
+
+xlabel('Tone Freq. (kHz)')
+set(gca, 'fontsize', fontsize)
+
 leg(2) = legend(h(4), {'0.25', '0.75', '1.25'}, 'Location','northeastoutside');
 leg(2).Title.String = {'CF Range', '(oct)'};
 leg(2).ItemTokenSize = tokensize;
 
 
 %% How chosen CF affects responses
-load(fullfile(datapath, 'ModelParams4.mat'),...
-	"model", "CF","params1", "params2", "params3")
+load(fullfile(datapath, 'ModelParams_3.mat'),...
+	"model", "CF","params")
 
 h(5) = subplot(3, 2, 5);
 colors1 = {'#969696','#636363', '#252525'};
 colors2 = {'#fd8d3c','#e6550d','#a63603'};
 for iparam = 1:3
-	if iparam == 1
-		params = params1;
-	elseif iparam == 2
-		params = params2;
-	else
-		params = params3;
-	end
-	lateral_model = model{iparam}{1};
-	[~, avIC, ~] = plotMTF(params{1}, lateral_model.avIC, 0);
+	lateral_model = model{iparam, 1};
+	[~, avIC, ~] = plotMTF(params{iparam, 1}, lateral_model.avIC, 0);
 	yline(avIC(1), 'Color',colors1{iparam}, 'LineWidth',linewidth)
 	hold on
-	plot(params{1}.all_fms, avIC, 'LineWidth',linewidth, 'Color', colors2{iparam})
+	plot(params{iparam,1}.all_fms, avIC, 'LineWidth',linewidth, 'Color', colors2{iparam})
 	ylim([0,20])
-	xlim([params{1}.all_fms(2) params{1}.all_fms(end)])
+	xlim([params{iparam,1}.all_fms(2) params{iparam,1}.all_fms(end)])
 	set(gca,'xtick',[1.2,2, 5,  20, 50, 200],'xticklabel',...
 		{'Unmod','2','5','20', '50','200'},'xscale','log')
 	xtickangle(0)
@@ -127,19 +116,12 @@ end
 for iWB = 2
 	h(6) = subplot(3, 2, 6);
 	for iparam = 1:3
-		lateral_model = model{iparam}{2+iWB};
-		if iparam == 1
-			params = params1;
-		elseif iparam == 2
-			params = params2;
-		else
-			params = params3;
-		end
+		lateral_model = model{iparam, 2};
 
 		% Analyze model
-		[SNRs,~,si] = unique([params{2+iWB}.mlist.SNR].');
+		[SNRs,~,si] = unique([params{iparam,2}.mlist.SNR].');
 		num_SNRs = length(SNRs);
-		[fpeaks,~,fi] = unique([params{2+iWB}.mlist.fpeak].');
+		[fpeaks,~,fi] = unique([params{iparam,2}.mlist.fpeak].');
 		num_fpeaks = length(fpeaks);
 		rate_size = [num_fpeaks,num_SNRs];
 		[avIC,~,~,~] = accumstats({fi,si},lateral_model.avIC, rate_size);
